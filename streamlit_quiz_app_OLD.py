@@ -56,30 +56,6 @@ if "username" not in st.session_state:
 df = pd.read_csv("all_statistics_quiz_questions.csv")
 questions = df.to_dict(orient="records")
 
-# --- Learn Mode ---
-if st.sidebar.button("📘 Learn"):
-    st.session_state.learn_mode = True
-
-if st.session_state.get("learn_mode", False):
-    st.title("📘 Learn Mode - Review True Statements")
-    for _, row in df.iterrows():
-        st.markdown(f"""
-        ---
-        **Concept:** {row['concept']}  
-        **True Statement:** {row['true_statement']}  
-        **Justification:** {row['justification']}
-        """)
-
-    st.markdown("""
-        <br>
-        <hr style='border-top: 3px solid #bbb;'>
-    """, unsafe_allow_html=True)
-
-    if st.button("🔙 Back to Quiz"):
-        st.session_state.learn_mode = False
-        st.rerun()
-    st.stop()
-
 # --- Initialize session state ---
 if "index" not in st.session_state:
     st.session_state.index = 0
