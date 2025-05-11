@@ -56,10 +56,19 @@ if "username" not in st.session_state:
 df = pd.read_csv("all_statistics_quiz_questions.csv")
 questions = df.to_dict(orient="records")
 
-# --- Learn Mode ---
-if st.sidebar.button("📘 Learn"):
-    st.session_state.learn_mode = True
+# --- Learn Mode Toggle Buttons ---
+colA, colB = st.columns([1, 4])
+with colA:
+    if st.session_state.get("learn_mode", False):
+        if st.button("🔙 Back to Quiz"):
+            st.session_state.learn_mode = False
+            st.rerun()
+    else:
+        if st.button("📘 Learn"):
+            st.session_state.learn_mode = True
+            st.rerun()
 
+# --- Learn Mode View ---
 if st.session_state.get("learn_mode", False):
     st.title("📘 Learn Mode - Review True Statements")
     for _, row in df.iterrows():
@@ -75,7 +84,7 @@ if st.session_state.get("learn_mode", False):
         <hr style='border-top: 3px solid #bbb;'>
     """, unsafe_allow_html=True)
 
-    if st.button("🔙 Back to Quiz"):
+    if st.button("🔙 Back to Quiz", key="bottom-back"):
         st.session_state.learn_mode = False
         st.rerun()
     st.stop()
